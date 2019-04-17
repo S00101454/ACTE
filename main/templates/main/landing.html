@@ -4,13 +4,16 @@
   <h1>
     Snead State ACTE Fair
   </h1>
+  {% if user.is_authenticated %}
+  <form method="POST">
+    {% csrf_token %}
+    {{school_form.as_p}}
+    <button type="submit">Save</button>
+  </form> 
+  {% else %}
   <h2>
     Please <a href ="{% url 'main:login' %}">log in</a> to continue.
   </h2>
- 
-  <P>
-    This is a webpage
-  </P>
-  
+  {% endif %}
 
 {% endblock %}

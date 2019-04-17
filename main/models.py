@@ -34,7 +34,7 @@ class School(models.Model):
     contact_name = models.CharField(max_length = 192)
     contact_email = models.CharField(max_length = 192)
     contact_primary_phone = models.CharField(max_length = 64)
-    contact_alternate_phone = models.CharField(max_length = 64)
+    contact_alternate_phone = models.CharField(max_length = 66)
 
     def __str__(self):
         return (self.school_name)

@@ -1,13 +1,22 @@
-from .forms import NewUserForm
+from .forms import NewUserForm, SchoolInfoForm
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from django.contrib.auth import logout, login, authenticate
+from django.contrib.auth import logout, login, authenticate 
+from django.contrib.auth.models import User
 
 def homepage(request):
+    if request.user.is_authenticated:
+        school_form = SchoolInfoForm(email=request.user.email)
+        messages.info(request, str(request.user.email))
+    else:
+        school_form = SchoolInfoForm
+    #school_form.contact_email = request.user.email
+
     return render(request = request, 
     template_name = "main/landing.html",
+    context={"school_form":school_form}
     )
 
 def login_request(request):
