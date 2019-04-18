@@ -8,11 +8,10 @@ from django.contrib.auth.models import User
 
 def homepage(request):
     if request.user.is_authenticated:
-        school_form = SchoolInfoForm(email=request.user.email)
-        messages.info(request, str(request.user.email))
+        school_form = SchoolInfoForm(initial={"contact_email": str(request.user.email)})
+
     else:
         school_form = SchoolInfoForm
-    #school_form.contact_email = request.user.email
 
     return render(request = request, 
     template_name = "main/landing.html",

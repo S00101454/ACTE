@@ -5,11 +5,13 @@
     Snead State ACTE Fair
   </h1>
   {% if user.is_authenticated %}
-  <form method="POST">
-    {% csrf_token %}
-    {{school_form.as_p}}
-    <button type="submit">Save</button>
-  </form> 
+    {% if not user.is_staff %}
+    <form method="POST">
+      {% csrf_token %}
+      {{school_form.as_p}}
+      <button type="submit">Save</button>
+    </form> 
+    {% endif %}
   {% else %}
   <h2>
     Please <a href ="{% url 'main:login' %}">log in</a> to continue.

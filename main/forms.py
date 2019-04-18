@@ -23,12 +23,9 @@ class NewUserForm(UserCreationForm):
 class SchoolInfoForm(ModelForm):
 
     def __init__(self, **kwargs):
-        self.contact_email = kwargs.pop('email')
         super(SchoolInfoForm, self).__init__( **kwargs)
         if not self.instance:
             self.fields['email'].initial = self.contact_email
-
-
     contact_alternate_phone = forms.CharField(max_length=64, required=False)
     contact_email = forms.CharField(max_length = 192)
     class Meta:
@@ -45,3 +42,6 @@ class SchoolInfoForm(ModelForm):
             "teachers_attending", 
             "drivers_attending"
             ]
+
+    def save(self, commit=True):
+        
