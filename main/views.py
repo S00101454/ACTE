@@ -8,7 +8,14 @@ from django.contrib.auth.models import User
 
 def homepage(request):
     if request.user.is_authenticated:
-        school_form = SchoolInfoForm(initial={"contact_email": str(request.user.email)})
+        if request.method == "POST":
+            school_form = SchoolInfoForm(data=request.POST)
+            if school_form.is_valid():
+                school_form = school_form.save(commit = False)
+                school_form.studentsAttending = 0
+                school_form = school_form.save()
+        else:
+            school_form = SchoolInfoForm(initial={"contact_email": str(request.user.email)})
 
     else:
         school_form = SchoolInfoForm

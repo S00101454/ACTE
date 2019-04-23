@@ -42,6 +42,11 @@ class SchoolInfoForm(ModelForm):
             "teachers_attending", 
             "drivers_attending"
             ]
-
-    def save(self, commit=True):
-        
+    
+    def save(self, commit = True):
+        sch = super(SchoolInfoForm, self).save(commit = False)
+        sch.students_attending = 0
+        sch.amount_paid = 0
+        if commit:
+            sch.save()
+        return sch
