@@ -1,23 +1,32 @@
 {% extends 'main/header.html' %}
 
 {%block content%}
-  <h1>
-    Snead State ACTE Fair
-  </h1>
-  {% if user.is_authenticated %}
-    {% if user.is_staff %}
-    
+    <h1>
+        Snead State ACTE Fair
+    </h1>
+    {% if user.is_authenticated %}
+        {% if user.is_superuser%}
+            {Admin portal here}
+        {% elif user.is_staff %}
+            {% for school in schools %}
+                <p>{{school}}:</p>
+                {% for project in projects.filter(school_id=school) %}
+                    <p>{{str(project)}}</p>
+                {% endfor %}
+            {% endfor %}
+        {% else %}
+            {% if form %}
+                <form method="POST">
+                    {% csrf_token %}
+                    {{form.as_p}}
+                    <button type="submit">Save</button>
+                </form> 
+            {% endif %}
+        {% endif %}
     {% else %}
-    <form method="POST">
-      {% csrf_token %}
-      {{school_form.as_p}}
-      <button type="submit">Save</button>
-    </form> 
+        <h2>
+            Please <a href ="{% url 'main:login' %}">log in</a> to continue.
+        </h2>
     {% endif %}
-  {% else %}
-  <h2>
-    Please <a href ="{% url 'main:login' %}">log in</a> to continue.
-  </h2>
-  {% endif %}
 
 {% endblock %}

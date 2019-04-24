@@ -1,6 +1,6 @@
 <li><a href="{% url 'main:homepage' %}">Home</a></li>
     {% if user.is_authenticated %}
-        {% if user.is_staff %}
+        {% if user.is_superuser %}
             <li><a href= "{% url 'admin:index' %}">Admin</a></li>    
         {% endif %}
         <li><a href="{% url 'main:login' %}">{{user.username|title}}</a></li>

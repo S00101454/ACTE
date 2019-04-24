@@ -1,4 +1,6 @@
 from .forms import NewUserForm, SchoolInfoForm
+from .models import Project, School
+
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib import messages
@@ -7,23 +9,29 @@ from django.contrib.auth import logout, login, authenticate
 from django.contrib.auth.models import User
 
 def homepage(request):
+    form = None
+    schools = None
+    projects = None
     if request.user.is_authenticated:
-        if request.method == "POST":
-            school_form = SchoolInfoForm(data=request.POST)
-            if school_form.is_valid():
-                school_form = school_form.save(commit = False)
-                school_form.studentsAttending = 0
-                school_form = school_form.save()
-        else:
-            school_form = SchoolInfoForm(initial={"contact_email": str(request.user.email)})
+        if request.user.is_superuser:
+            pass
+        elif request.user.is_staff:
+            schools = School.objects.all()
+            projects = Project.objects.all()
+        else:    
+            if request.method == "POST":
+                form = SchoolInfoForm(data=request.POST)
+                if form.is_valid():
+                    form = form.save(commit = False)
+                    form.studentsAttending = 0
+                    form = form.save()
+            else:
+                form = SchoolInfoForm(initial={"contact_email": str(request.user.email)})
+    return render(request = request,
+        template_name = "main/landing.html",
+        context={"form":form, "schools":schools, "projects":projects})
 
-    else:
-        school_form = SchoolInfoForm
-
-    return render(request = request, 
-    template_name = "main/landing.html",
-    context={"school_form":school_form}
-    )
+    
 
 def login_request(request):
     if request.method == "POST":
