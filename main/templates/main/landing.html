@@ -8,10 +8,22 @@
         {% if user.is_superuser%}
             {Admin portal here}
         {% elif user.is_staff %}
+            <p>Unscored projects:</p>
             {% for school in schools %}
-                <p>{{school}}:</p>
-                {% for project in projects.filter(school_id=school) %}
-                    <p>{{str(project)}}</p>
+                <!-- <p>{{school}}:</p> -->
+                {% for project in school.project_set.all %}
+                    {% if project.score == null %}
+                    <p>&nbsp;&nbsp;&nbsp;&nbsp;{{project.front_end_id}} - {{project.name}}</p>
+                    {% endif %}
+                {% endfor %}
+            {% endfor %}
+            <p>Scored projects:</p>
+            {% for school in schools %}
+                <!-- <p>{{school}}:</p> -->
+                {% for project in school.project_set.all %}
+                    {% if project.score != null %}
+                        <p>&nbsp;&nbsp;&nbsp;&nbsp;{{project.front_end_id}} - {{project.name}} - {{project.score}}</p>
+                    {% endif %}
                 {% endfor %}
             {% endfor %}
         {% else %}

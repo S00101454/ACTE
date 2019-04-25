@@ -1,4 +1,4 @@
-from .forms import NewUserForm, SchoolInfoForm
+from .forms import NewUserForm, SchoolInfoForm, UpdateUserForm
 from .models import Project, School
 
 from django.shortcuts import render, redirect
@@ -31,7 +31,26 @@ def homepage(request):
         template_name = "main/landing.html",
         context={"form":form, "schools":schools, "projects":projects})
 
-    
+def account_page(request):
+    if request.method == "POST":
+        form = UpdateUserForm(data=request.POST, instance=request.user)
+        if form.is_valid():
+            messages.success(request, f"Account updated successfully.")
+            update = form.save(commit=False)
+            update.user = request.user
+            update.save()
+        else:
+            for msg in form.error_messages:
+                messages.error(request, f"{msg}: {form.error_messages[msg]}")
+
+    else:
+        form=UpdateUserForm(instance=request.user)
+
+    return render(
+        request = request,
+        template_name = "main/account.html",
+        context={"form":form}
+    )
 
 def login_request(request):
     if request.method == "POST":
@@ -63,7 +82,7 @@ def register(request):
             username = form.cleaned_data.get('username')
             messages.success(request, f"New account created: {username}")
             login(request, user)
-            return redirect("main:homepage")
+            return redirect("main:account")
         else:
             for msg in form.error_messages:
                 messages.error(request, f"{msg}: {form.error_messages[msg]}")
