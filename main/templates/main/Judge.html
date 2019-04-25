@@ -1,0 +1,36 @@
+{% extends 'main/header.html' %}
+
+{%block content%}
+    <h1>
+        Snead State ACTE Fair
+    </h1>
+    {% if user.is_authenticated %}
+        {% if user.is_staff %}
+            <p>Unscored projects:</p>
+            {% for school in schools %}
+                <!-- <p>{{school}}:</p> -->
+                {% for project in school.project_set.all %}
+                    {% if project.score == null %}
+                    <p>&nbsp;&nbsp;&nbsp;&nbsp;{{project.front_end_id}} - {{project.name}}</p>
+                    {% endif %}
+                {% endfor %}
+            {% endfor %}
+            <p>Scored projects:</p>
+            {% for school in schools %}
+                <!-- <p>{{school}}:</p> -->
+                {% for project in school.project_set.all %}
+                    {% if project.score != null %}
+                        <p>&nbsp;&nbsp;&nbsp;&nbsp;{{project.front_end_id}} - {{project.name}} - {{project.score}}</p>
+                    {% endif %}
+                {% endfor %}
+            {% endfor %}
+        {% else %}
+            <h4>Unauthorized.</h4>
+        {% endif %}
+    {% else %}
+        <h2>
+            Please <a href ="{% url 'main:login' %}">log in</a> to continue.
+        </h2>
+    {% endif %}
+
+{% endblock %}

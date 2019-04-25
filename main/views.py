@@ -102,3 +102,18 @@ def logout_request(request):
     logout(request)
     messages.info(request, "Successfully logged out.")
     return redirect("main:homepage")
+
+def judge_page(request):
+    return render(
+        request = request,
+        template_name = "main/judge.html",
+        context = {}
+    )
+
+def admin_page(request):
+    return render(
+        request = request,
+        template_name = "main/adminpage.html",
+        context = {}
+    )
+

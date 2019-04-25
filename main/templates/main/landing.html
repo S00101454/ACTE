@@ -5,40 +5,47 @@
         Snead State ACTE Fair
     </h1>
     {% if user.is_authenticated %}
-        {% if user.is_superuser%}
-            {Admin portal here}
-        {% elif user.is_staff %}
-            <p>Unscored projects:</p>
-            {% for school in schools %}
-                <!-- <p>{{school}}:</p> -->
-                {% for project in school.project_set.all %}
-                    {% if project.score == null %}
-                    <p>&nbsp;&nbsp;&nbsp;&nbsp;{{project.front_end_id}} - {{project.name}}</p>
-                    {% endif %}
-                {% endfor %}
-            {% endfor %}
-            <p>Scored projects:</p>
-            {% for school in schools %}
-                <!-- <p>{{school}}:</p> -->
-                {% for project in school.project_set.all %}
-                    {% if project.score != null %}
-                        <p>&nbsp;&nbsp;&nbsp;&nbsp;{{project.front_end_id}} - {{project.name}} - {{project.score}}</p>
-                    {% endif %}
-                {% endfor %}
-            {% endfor %}
-        {% else %}
-            {% if form %}
-                <form method="POST">
-                    {% csrf_token %}
-                    {{form.as_p}}
-                    <button type="submit">Save</button>
-                </form> 
-            {% endif %}
+        {% if user.is_superuser %}
+            <h4>Admin's Pages</h4>
+            <ul>
+                <li>
+                    <a href = "{% url 'admin:index' %}">Site Administration Dashboard</a>
+                </li>   
+                <li>
+                    <a href = "{% url 'main:admin' %}">Database Administration Page</a>
+                </li>
+            </ul>
+            <p></p>
+            <hr/>
+        {% endif %}
+        
+        {% if user.is_staff %}
+            <h4>Judge's Pages</h4>
+            <ul>
+                <li>
+                    <a href = "{% url 'main:judge' %}">Judges' Dashboard</a>  
+                </li>   
+            </ul>            
+        {% endif %}
+
+        {% if  not user.is_staff or not user.is_superuser %}
+            <h4>School's Pages</h4>
+            <ul>
+                <li>
+                    <a href = "">Edit School Information</a>
+                </li>
+                <li>
+                    <a href = "">Edit Students</a>
+                </li>
+                <li>
+                    <a href = "">Edit Projects</a>
+                </li>
+            </ul>
         {% endif %}
     {% else %}
-        <h2>
+        <h3>
             Please <a href ="{% url 'main:login' %}">log in</a> to continue.
-        </h2>
+        </h3>
     {% endif %}
 
 {% endblock %}
