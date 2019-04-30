@@ -1,9 +1,11 @@
 {% extends 'main/header.html' %}
 
 {%block content%}
-    <h1>
+    <h3>
+        <strong>
         Snead State ACTE Fair
-    </h1>
+        </strong>
+    </h3>
     {% if user.is_authenticated %}
         {% if user.is_superuser %}
             <h4>Admin's Pages</h4>
@@ -43,9 +45,9 @@
             </ul>
         {% endif %}
     {% else %}
-        <h3>
+        <p>
             Please <a href ="{% url 'main:login' %}">log in</a> to continue.
-        </h3>
+        </p>
     {% endif %}
 
 {% endblock %}
