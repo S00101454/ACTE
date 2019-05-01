@@ -2,9 +2,9 @@ from .forms import NewUserForm, SchoolInfoForm, UpdateUserForm
 from .models import Project, School
 
 from django.shortcuts import render, redirect
-from django.http import HttpResponse, HttpResponseNotFound
+from django.http import HttpResponse, HttpResponseNotFound, HttpResponseForbidden, Http404
 from django.contrib import messages
-from django.core.exceptions import ObjectDoesNotExist
+from django.core.exceptions import ObjectDoesNotExist, PermissionDenied
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import logout, login, authenticate 
 from django.contrib.auth.models import User
@@ -107,8 +107,8 @@ def logout_request(request):
     return redirect("main:homepage")
 
 def judge_page(request):
-    if not request.user.is_authenticated:
-        return redirect("main:homepage")
+    if not request.user.is_staff:
+        raise PermissionDenied()
     return render(
         request = request,
         template_name = "main/judge.html",
@@ -116,8 +116,8 @@ def judge_page(request):
     )
 
 def admin_page(request):
-    if not request.user.is_authenticated:
-        return redirect("main:homepage")
+    if not request.user.is_superuser:
+        raise PermissionDenied()
     return render(
         request = request,
         template_name = "main/adminpage.html",
@@ -125,14 +125,16 @@ def admin_page(request):
     )
 
 def scoring_page(request, id=None):
-    try:
-        project = Project.objects.get(front_end_id=id)
-    except ObjectDoesNotExist:
-        return HttpResponseNotFound('<h1>Page not found</h1>')
-    
-    return render(
+    if request.user.is_authenticated and request.user.is_staff:
+        try:
+            project = Project.objects.get(front_end_id=id)
+        except ObjectDoesNotExist:
+            raise Http404("Project does not exist")        
+        return render(
         request = request,
         template_name = "main/scoring.html",
-        
         context = {"project":project}
     )
+    else:
+       raise PermissionDenied()
+    

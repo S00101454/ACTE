@@ -1,0 +1,7 @@
+{% extends 'main/header.html' %}
+
+{%block content%}
+    <h2>403</h2>
+    <p><strong>You do not have permission to view the requested item.</strong></p>
+    <a href="{% url 'main:homepage' %}">Home</a>
+{% endblock %}
