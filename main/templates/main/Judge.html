@@ -11,7 +11,7 @@
                 <!-- <p>{{school}}:</p> -->
                 {% for project in school.project_set.all %}
                     {% if project.score == null %}
-                    <p>&nbsp;&nbsp;&nbsp;&nbsp;{{project.front_end_id}} - {{project.name}}</p>
+                    <p><a href="{% url 'main:scoring' project.front_end_id %}">&nbsp;&nbsp;&nbsp;&nbsp;{{project.front_end_id}} - {{project.name}}</a></p>
                     {% endif %}
                 {% endfor %}
             {% endfor %}

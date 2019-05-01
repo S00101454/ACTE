@@ -26,5 +26,6 @@ urlpatterns = [
     path("account", views.account_page, name="account"),
     path("admins", views.admin_page, name="admin"),
     path("judges", views.judge_page, name="judge"),
+    path("scoring/<int:id>", views.scoring_page, name="scoring"),
 ]
 

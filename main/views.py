@@ -2,8 +2,9 @@ from .forms import NewUserForm, SchoolInfoForm, UpdateUserForm
 from .models import Project, School
 
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseNotFound
 from django.contrib import messages
+from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import logout, login, authenticate 
 from django.contrib.auth.models import User
@@ -32,6 +33,8 @@ def homepage(request):
         context={"form":form, "schools":schools, "projects":projects})
 
 def account_page(request):
+    if not request.user.is_authenticated:
+        return redirect("main:homepage")
     if request.method == "POST":
         form = UpdateUserForm(data=request.POST, instance=request.user)
         if form.is_valid():
@@ -104,16 +107,32 @@ def logout_request(request):
     return redirect("main:homepage")
 
 def judge_page(request):
+    if not request.user.is_authenticated:
+        return redirect("main:homepage")
     return render(
         request = request,
         template_name = "main/judge.html",
-        context = {}
+        context = {"schools": School.objects.all()}
     )
 
 def admin_page(request):
+    if not request.user.is_authenticated:
+        return redirect("main:homepage")
     return render(
         request = request,
         template_name = "main/adminpage.html",
         context = {}
     )
 
+def scoring_page(request, id=None):
+    try:
+        project = Project.objects.get(front_end_id=id)
+    except ObjectDoesNotExist:
+        return HttpResponseNotFound('<h1>Page not found</h1>')
+    
+    return render(
+        request = request,
+        template_name = "main/scoring.html",
+        
+        context = {"project":project}
+    )
