@@ -1,27 +1,31 @@
 <head>
-    {% load static %}
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">  
-    <link href="{% static 'main/css/materialize.css'%}" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-    
+	{% load static %}
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<link href="{% static 'main/css/materialize.css'%}" rel="stylesheet">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+	<meta http-equiv="Cache-Control" content="no-store" />
+
 </head>
 <body>
-    <nav class="blue darken-3">
-        <div class="nav-wrapper">
-            <a href="{% url 'main:homepage' %}" class="brand-logo">&nbsp;Snead State ACTE Fair</a>
-            <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
-            <ul class="right hide-on-med-and-down">
-                {% include 'main/includes/navbaritems.html' %}
-            </ul>   
-        </div>
-    </nav>
-
-        {% include 'main/includes/messages.html' %}
-    <div class="container">
-        {%block content%}
-        {%endblock%}
-    </div>
-    <script type="text/javascript" src="{% static 'main/js/bin/materialize.min.js'%}"></script>
+	<nav class="blue darken-3">
+		<div class="nav-wrapper">
+			<a href="{% url 'main:homepage' %}" class="brand-logo">&nbsp;SSCC ACTE Portal</a>
+			<a href="#" data-target="mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+			<ul class="right hide-on-med-and-down">
+				{% include 'main/includes/navbaritems.html' %}
+			</ul>
+		</div>
+	</nav>
+	<ul class="sidenav" id="mobile">
+		{% include 'main/includes/navbaritems.html' %}
+	</ul>
+		{% include 'main/includes/messages.html' %}
+		<div class="container">
+			{%block content%}
+			{%endblock%}
+		</div>
+		<script type="text/javascript" src="{% static 'main/js/bin/materialize.min.js'%}"></script>
 </body>

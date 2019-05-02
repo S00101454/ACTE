@@ -24,8 +24,14 @@
     $(document).ready(function(){
         $('.dropdown-trigger').dropdown({
             constrain_width: false,
-            hover: true,
+            hover: false,
             belowOrigin: true
         });
-    });
+	});
+
+	$(document).ready(function () {
+		$('.sidenav').sidenav({
+			hover: false
+		});
+	});
 </script>
