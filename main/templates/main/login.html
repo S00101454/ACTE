@@ -8,6 +8,6 @@
             {{form.as_p}}
             <button type="submit">Login</button>
         </form>
-        Don't have an account? <a href="/register" target="blank"><strong>register here</strong></a>!
+        Don't have an account? <a href="{% url 'main:register' %}"><strong>register here</strong></a>!
     </div>
 {% endblock %}
