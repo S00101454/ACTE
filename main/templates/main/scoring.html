@@ -7,8 +7,24 @@
 	
 	<div class="row">
 		<div class="divider"></div>
-			<div class="col s6" style="font-weight:600">Category:</div>
-			<div class="col s6" style="font-weight:1000">{{project.category}}</div>
+		<div class="section">
+			<div class="col s4" style="font-weight:600">Category:</div>
+			<div class="col s8" style="font-weight:1000">{{project.category}}</div>
+		</div>
 		<div class="divider"></div>
+		<div class="section"></div>
+			<div class="col s4" style="font-weight:600">Team or Individual:</div>
+			<div class="col s8" style="font-weight:1000">
+				{% if project.is_group %}
+					Team
+				{% else %}
+					Individual
+				{% endif %}
+			</div>
+		</div>
+		<div class="divider"></div>
+		<div class="section">
+
+		</div>		
 	</div>
 {% endblock %}
