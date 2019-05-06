@@ -1,5 +1,6 @@
 from django.db import models
 from django.core.validators import MaxValueValidator
+from django.contrib.auth.models import User
 
 # Create your models here.
 class School(models.Model):
@@ -62,3 +63,20 @@ class Student_Project(models.Model):
 
     def __str__(self):
         return (self.student + ' : ' + self.project)
+
+class Score(models.Model):
+    id = models.AutoField(primary_key=True)
+    documentation_score = models.PositiveSmallIntegerField(blank=True, null=True, validators=[MaxValueValidator(10),])
+    completion_score = models.PositiveSmallIntegerField(blank=True, null=True, validators=[MaxValueValidator(15),])
+    creativity_score = models.PositiveSmallIntegerField(blank=True, null=True, validators=[MaxValueValidator(20),])
+    purpose_score = models.PositiveSmallIntegerField(blank=True, null=True, validators=[MaxValueValidator(25),])
+    understanding_score = models.PositiveSmallIntegerField(blank=True, null=True, validators=[MaxValueValidator(30),])
+
+class Project_Scoring(models.Model):
+    unique_together = (('project', 'judge'),)
+    id = models.AutoField(primary_key=True)
+    project = models.ForeignKey(Project, verbose_name="Project", on_delete=models.PROTECT)
+    score = models.ForeignKey(Score, verbose_name="Score", null=True, on_delete=models.SET_NULL)
+    judge = models.ForeignKey(User, verbose_name="Judge", null=True, on_delete=models.SET_NULL)
+    def __str__(self):
+        return (self.id)
