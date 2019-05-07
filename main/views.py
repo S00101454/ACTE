@@ -1,4 +1,4 @@
-from .forms import NewUserForm, SchoolInfoForm, UpdateUserForm
+from .forms import NewUserForm, SchoolInfoForm, UpdateUserForm, ScoringForm
 from .models import Project, School
 
 from django.shortcuts import render, redirect
@@ -128,12 +128,19 @@ def scoring_page(request, id=None):
     if request.user.is_authenticated and request.user.is_staff:
         try:
             project = Project.objects.get(front_end_id=id)
+            if request.method == "POST":
+               form = ScoringForm(request.POST)
+            else:
+                form = ScoringForm
         except ObjectDoesNotExist:
             raise Http404("Project does not exist")        
         return render(
         request = request,
         template_name = "main/scoring.html",
-        context = {"project":project}
+        context = {
+            "project":project,
+            "form":form
+        }
     )
     else:
        raise PermissionDenied()

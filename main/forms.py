@@ -3,7 +3,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.forms import ModelForm, Form, fields
 
-from main.models import School
+from main.models import School, Score
 
 class NewUserForm(UserCreationForm):
     email = forms.EmailField(required=True)
@@ -55,4 +55,17 @@ class UpdateUserForm(ModelForm):
     class Meta:
         model = User
         fields = ['first_name', 'last_name', 'email']
+    
+class ScoringForm(ModelForm):
+    class Meta:
+        model = Score
+        exclude = ()
+        help_texts = {
+            'documentation_score': 'Did student(s) include citations for sources and permissions for non-student produced materials?',
+            'completion_score': 'Did student(s) complete the entire project?',
+            'creativity_score':'Did student(s) use a higher level of creativity thoughout the design process and presentation?',
+            'purpose_score':'Did all parts of the project work together for the intended purpose?',
+            'understanding_score':'Did student(s) demonstrate a solid understanding of the software in development of the project?'
+        }
+
     
