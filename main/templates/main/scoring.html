@@ -2,30 +2,39 @@
 
 {%block content%}
 	<h3>
-		Project Page: <span class="hide-on-med-and-up"><br></span> {{project.front_end_id}} | {{project.name}}
+		Project: <span class="hide-on-med-and-up"><br></span> {{project.front_end_id}} | {{project.name}}
 	</h3>
 	<div class="row">
 		<div class="section">
-			<div class="col s12 m6 l4" style="font-weight:600">Category: <span style="font-weight:1000">{{project.category}}</span></div>
-			<div class="col s12 m6 l4" style="font-weight:1000">
+			<div class="col s12 m6 l4" style="font-weight:600">Category: <span style="font-weight:900">{{project.category}}</span></div>
+			<div class="col s12 m6 l4" style="font-weight:900">
 				{% if project.is_group %}
 					Team
 				{% else %}
 					Individual 
 				{% endif %}
 			<span style="font-weight:600">Project</span></div>
-			<div class="col s12 m6 l4" style="font-weight:600">Level: <span style="font-weight:1000">{{project.level}}</span></div>
+			<div class="col s12 m6 l4" style="font-weight:600">Level: <span style="font-weight:900">{{project.level}}</span></div>
 		</div>
 		<div class="divider"></div>
 		<div class="section">
 			<form method="POST">
 				{% csrf_token %}
 				{{form.as_p}}
+				<span id="word_count">2000</span> characters remaining.
 				<div class="divider"></div>
 				<br>
 				<button type="submit">Save Score</button>
 			</form>
-			
+			<script>
+				var textSource = document.getElementById("id_comments")
+				var wordCount = document.getElementById("word_count")
+
+				textSource.addEventListener("keyup", function(){
+					var characters = textSource.value.split('');
+					wordCount.innerText = 2000 - characters.length;
+				});
+			</script>
 		</div>
 	</div>
 {% endblock %}

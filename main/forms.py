@@ -61,11 +61,11 @@ class ScoringForm(ModelForm):
         model = Score
         exclude = ()
         help_texts = {
-            'documentation_score': 'Did student(s) include citations for sources and permissions for non-student produced materials?',
-            'completion_score': 'Did student(s) complete the entire project?',
-            'creativity_score':'Did student(s) use a higher level of creativity thoughout the design process and presentation?',
-            'purpose_score':'Did all parts of the project work together for the intended purpose?',
-            'understanding_score':'Did student(s) demonstrate a solid understanding of the software in development of the project?'
+            'documentation_score': 'Did student(s) include citations for sources and permissions for non-student produced materials? <br/>Max 10 pts',
+            'completion_score': 'Did student(s) complete the entire project? <br/>Max 15 pts',
+            'creativity_score':'Did student(s) use a higher level of creativity thoughout the design process and presentation? <br/>Max 20 pts',
+            'purpose_score':'Did all parts of the project work together for the intended purpose? <br/>Max 25 pts',
+            'understanding_score':'Did student(s) demonstrate a solid understanding of the software in development of the project? <br/>Max 30 pts',
         }
 
     

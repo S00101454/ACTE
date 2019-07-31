@@ -71,6 +71,7 @@ class Score(models.Model):
     creativity_score = models.PositiveSmallIntegerField(blank=True, null=True, validators=[MaxValueValidator(20),])
     purpose_score = models.PositiveSmallIntegerField(blank=True, null=True, validators=[MaxValueValidator(25),])
     understanding_score = models.PositiveSmallIntegerField(blank=True, null=True, validators=[MaxValueValidator(30),])
+    comments = models.TextField(max_length=2000, blank=True, null=True)
 
 class Project_Scoring(models.Model):
     unique_together = (('project', 'judge'),)
