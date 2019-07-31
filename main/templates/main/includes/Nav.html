@@ -2,11 +2,11 @@
 	<div class="nav-wrapper">
 		<a href="{% url 'main:homepage' %}" class="brand-logo">&nbsp;SSCC ACTE Portal</a>
 		<a href="#" data-target="mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
-		<ul class="right hide-on-med-and-down">
+		<ul class="right hide-on-med-and-down" id="mobile">
+			{% include 'main/includes/navbaritems.html' %}
+		</ul>
+		<ul class="sidenav" id="mobile">
 			{% include 'main/includes/navbaritems.html' %}
 		</ul>
 	</div>
 </nav>
-<ul class="sidenav" id="mobile">
-	{% include 'main/includes/navbaritems.html' %}
-</ul>
